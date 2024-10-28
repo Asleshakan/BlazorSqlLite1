@@ -1,0 +1,36 @@
+﻿@page "/addwallet"
+@using BlazorSqlLite1.Models
+@using BlazorSqlLite1.Services
+@inject WalletService WalletService
+
+<h3>Add Wallet</h3>
+
+<EditForm Model="newWallet" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText @bind-Value="newWallet.Name" />
+    </div>
+    <div>
+        <label>Last Name:</label>
+        <InputText @bind-Value="newWallet.LastName" />
+    </div>
+    <div>
+        <label>Deposit Amount:</label>
+        <InputText @bind-Value="newWallet.DepositAmount" />
+    </div>
+
+    <button type="submit">Add Wallet</button>
+</EditForm>
+
+@code {
+    private Wallet newWallet = new Wallet();
+
+    private async Task HandleValidSubmit()
+    {
+        await WalletService.AddWalletAsync(newWallet);
+        newWallet = new Wallet(); // Reset form after submission
+    }
+}
